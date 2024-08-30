@@ -1,0 +1,6 @@
+*** version
+v 1.0
+*** packages
+p hwtoolkit
+p buddytoolkit
+p ldtoolkit

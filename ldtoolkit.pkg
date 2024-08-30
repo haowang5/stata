@@ -1,0 +1,20 @@
+*** version
+v 1.0
+*** title
+d 'LDTOOLKIT':
+*** description
+d This package contains auxiliary programs for the Labor Discipline Project
+*** stata
+d Requires: Stata version 14.0
+*** author
+d Author: Hao Wang
+*** date
+d Distribution-Date: 20240830
+*** adofiles
+f ado/strclean.ado
+
+*** helpfiles
+f sthlp/strclean.sthlp
+
+*** end
+e
