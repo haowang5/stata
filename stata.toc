@@ -1,6 +1,3 @@
-*** version
-v 1.0
-*** packages
-p hwtoolkit
-p buddytoolkit
-p ldtoolkit
+v 1
+d HW's Stata Repo
+p strclean
