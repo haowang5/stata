@@ -49,16 +49,16 @@
 			count if !mi(`to_be_cleaned')
 			if "`ascii'" != "" replace `to_be_cleaned' = ustrto(ustrnormalize(`to_be_cleaned', "nfd"), "ascii", 2)
 			if "`notrim'" == "" replace `to_be_cleaned' = stritrim(`to_be_cleaned')
-			if "`notrim'" == "" replace `to_be_cleaned' = strtrim(`to_be_cleaned')
+			if "`notrim'" == "" replace `to_be_cleaned' = ustrtrim(`to_be_cleaned')
 			count if !mi(`to_be_cleaned')
 			if "`proper'" != "" {
 				replace `to_be_cleaned' = strproper(`to_be_cleaned')
 			}
 			if "`upper'" != "" {
-				replace `to_be_cleaned' = strupper(`to_be_cleaned')
+				replace `to_be_cleaned' = ustrupper(`to_be_cleaned')
 			}
 			if "`lower'" != "" {
-				replace `to_be_cleaned' = strlower(`to_be_cleaned')
+				replace `to_be_cleaned' = ustrlower(`to_be_cleaned')
 			}
 			
 			if `"`filter'"' != "" replace `to_be_cleaned' = ustrregexra(`to_be_cleaned', `"[^`filter']"', "")
