@@ -1,3 +1,3 @@
 # stata
 
-This depository contains Stata program for my personal use.
+This depository contains Stata programs for my personal use.
