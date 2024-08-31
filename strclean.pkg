@@ -1,6 +1,6 @@
 v 1.01
 d 'STRCLEAN': A command that cleans string variables
-Distribution-Date: 30Aug2024
+Distribution-Date: 30aug2024
 f strclean.ado
 f strclean.sthlp
 e
