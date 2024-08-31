@@ -58,6 +58,5 @@ The remaining options are self-explanatory.
 {marker author}{...}
 {title:Author}
 
-{pstd}
-Hao Wang{break}
-wanghao@berkeley.edu{break}
+Hao Wang
+wanghao@berkeley.edu
