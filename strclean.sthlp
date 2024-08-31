@@ -1,11 +1,11 @@
 {smcl}
-{* *! version 2.1  30Aug2024}{...}
+{* *! version 1.01  30aug2024}{...}
 
 {marker title}{...}
 {title:Title}
 
 {p 8 15 2}
-{cmd:strclean} — A command that cleans string variables
+{cmd:strclean} — Module that cleans string variables
 
 
 {marker syntax}{...}
@@ -40,7 +40,7 @@
 {title:Cleaning Process}
 
 {phang}
-Please note that program first applies ascii conversion (if specified), then trims heading, trailing and duplicated spaces (if {opt notrim} not specified), after that applies case conversion ({opt upper}|{opt lower}|{opt proper}, if specified), and at last applies filter.
+Please note that program first applies ascii conversion (if specified), then trims leading, trailing and duplicated spaces (if {opt notrim} not specified), after that applies case conversion ({opt upper}|{opt lower}|{opt proper}, if specified), and at last applies filter.
 
 {marker options}{...}
 {title:Options}
