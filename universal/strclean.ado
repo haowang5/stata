@@ -2,10 +2,10 @@
 	* Purpose: Clean string variable. Remove extra spaces, convert to ASCII characters if specified, apply capitalization option as specified, apply Regex filter if specified.
 	* Author: HW
 	* Date Written: Jul 2024
-	* Last Edited: Aug 30 2024
+	* Last Edited: Sep 2 2024
 	program define strclean 
 		version 14
-		syntax varlist [, upper lower proper ascii suffix(string) Generate(namelist) replace filter(string) notrim]
+		syntax varlist [, upper lower proper ascii suffix(string) Generate(namelist) replace KEEPChar(string) KEEPPattern(string) notrim]
 		
 		local all_three = 0
 		foreach op in `upper' `lower' `proper' {
@@ -28,10 +28,17 @@
 		if `all_three' == 2 | `all_three' == 3 {
 			di as err "{p}options suffix, generate and replace mutually exclusive{p_end}"
 			exit 198
-		}		
+		}	
+		
+		if "`all_three'" != "" &  {
 		
 		
-		if "`suffix'" != "" local suffix = subinstr("_`suffix'","__","_",.)
+		if "`keepchar'" != "" & "keeppattern" != "" {
+			di as err "{p}options keepchar and keeppattern mutually exclusive{p_end}"
+			exit 198
+		} 
+		
+		local suffix = subinstr("_`suffix'","__","_",.)
 		
 		local nvars : word count `varlist'
 		if "`generate'" != "" {
@@ -62,6 +69,10 @@
 			}
 			
 			if `"`filter'"' != "" replace `to_be_cleaned' = ustrregexra(`to_be_cleaned', `"[^`filter']"', "")
+			
+			if `"`keeppattern'"' != "" {
+				replace `to_be_cleaned' = regexs(1) if regexm(`to_be_cleaned', `"`keeppattern'"')
+			}
 			
 			if "`suffix'" != "" {
 				gen `var'`suffix' = `to_be_cleaned'
