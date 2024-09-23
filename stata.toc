@@ -1,3 +1,4 @@
 v 0
 d HW's Stata Repo
 p strclean
+p baltab
