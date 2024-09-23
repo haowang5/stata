@@ -1,94 +1,105 @@
+	* Purpose: Add booktabs and optional extra rows (often as panel names) to tables created by iebaltab
+	* options:
+		* booktabs: use boooktabs instead of \hline for aesthetic
+		* refcat: Inspired by esttab's refcat, include extra rows in the table containing subtitles or other information such as panel names
+		* Other options are identical to iebaltab's, with the exception that savetex() is disabled. Please use `" using "$path/..../file.tex" "' to specify export file
+	* Author: Hao Wang
+	* Last Edited: SEP 3 2024
 
-	* Purpose: Clean string variable. Remove extra spaces, convert to ASCII characters if specified, apply capitalization option as specified, apply Regex if specified.
-	* Author: HW
-	* Date Written: Jul 2024
-	* Last Edited: Sep 4 2024
-	program define strclean 
+	program define baltab
+		
 		version 14
-		syntax varlist [, upper lower proper ascii suffix(string) Generate(namelist) replace KEEPChar(string) KEEPPattern(string) notrim]
 		
-		local all_three = 0
-		foreach op in `upper' `lower' `proper' {
-			if `"`op'"'!= "" local all_three = `all_three' + 1
-		}
-		if `all_three' == 2 | `all_three' == 3 {
-			di as err "{p}options upper, lower and proper mutually exclusive{p_end}"
-			exit 198
+		syntax varlist using/ [if] [, refcat(string asis)] [booktabs] [*]
+		
+		assert strpos("`options", "savetex") == 0
+		assert strpos("`options'", " if ") == 0
+		foreach i of varlist `varlist' {
+			assert strpos("`options'", "`i'") == 0
 		}
 		
-		local all_three = 0
-		foreach op in `"`suffix'"' `"`generate'"' `"`replace'"' {
-			if `"`op'"'!= "" local all_three = `all_three' + 1
-		}
-		if `all_three' == 0 {
-			di as err "{p}must specify one of suffix, generate and replace {p_end}"
-			exit 198
+		
+		local ieoptions `"`varlist' `if' , `options' savetex(`"`using'"') replace nonote starlevels(0.1 0.05 0.01) "'
+		iebaltab `ieoptions'
+		
+		
+		local andsigns "& & & & & &"
+		if strpos(`"`ieoptions'"', " total") local andsigns "& & & & & & & &"
+		local num_cols = 6
+		if strpos(`"`ieoptions'"', " total") local num_cols = 8
+		
+		local hasrefcat = 0
+		local n_vars : word count `varlist'
+		if `"`refcat'"' != "" {
+			local nref = 0
+			gettoken curr_ref refcat : refcat
+			while `"`curr_ref'"' != "" {
+				local curr_ref`=`nref'+1' `"`curr_ref'"'
+				if mod(`nref',2) == 0 assert strpos("`varlist'", "`curr_ref'")
+				gettoken curr_ref refcat : refcat
+				local nref = `nref' + 1 
+			}
+			assert mod(`nref',2) == 0
+			
+			
+			
+			local nvars : word count `varlist'
+			local curr_row = 12
+			foreach i of varlist `varlist' {
+				local `i'_row = `curr_row'
+				local curr_row = `curr_row' + 2
+			}
+			
+			local hasrefcat = 1
 		}
 	
-		if `all_three' == 2 | `all_three' == 3 {
-			di as err "{p}options suffix, generate and replace mutually exclusive{p_end}"
-			exit 198
-		}	
 		
-		if "`keepchar'" != "" & "keeppattern" != "" {
-			di as err "{p}options keepchar and keeppattern mutually exclusive{p_end}"
-			exit 198
-		} 
+		cap file close myfile
+		cap file close myfile_r
+		file open myfile using `"`using'"', read
+		file open myfile_r using "tempbaltab.tex", text write replace
 		
-		local has_suffix `suffix'
-		local suffix = subinstr("_`suffix'","__","_",.)
 		
-		local nvars : word count `varlist'
-		if "`generate'" != "" {
-			local nname : word count `generate'
-			if "`nvars'" != "`nname'" {
-				di as err "{p}number of variable names specified in generate() should equal to the number of variables{p_end}"
-				exit 198
+		file read myfile line_file
+		local curr_row = 1
+		while r(eof)==0 {
+			if "`booktabs'" != "" {
+				if strpos(`"`line_file'"', "\\[-1.8ex]\hline \hline \\[-1.8ex]") {
+					local line_file = "\\[-1.8ex]\toprule \\[-1.8ex]"
+				}
+				if strpos(`"`line_file'"', "\\ \hline \\[-1.8ex]") & strpos(`"`ieoptions'"', " total") {
+					local line_file = "Variable & N & Mean/(SE) & N & Mean/(SE) & N & Mean/(SE) & N & Mean difference \\ \midrule \\[-1.8ex]"
+				}
+				if strpos(`"`line_file'"', "\\ \hline \\[-1.8ex]") {
+					local line_file = "Variable & N & Mean/(SE) & N & Mean/(SE) & N & Mean difference \\ \midrule \\[-1.8ex]"
+				}
+				if strpos(`"`line_file'"',"\hline \hline \\[-1.8ex]") {
+					local line_file = "\bottomrule \\[-1.8ex]"
+				}
 			}
+			
+			if `hasrefcat' == 1 {
+				forval j = 1(2)`=`nref'-1' {
+					if ``curr_ref`j''_row' == `curr_row' file write myfile_r "\textbf{\textit{`curr_ref`=`j'+1''}} `andsigns' \\" _n
+				}
+				if `curr_row' >= 12 & `curr_row' <= `=10 + 2*`n_vars'' & mod(`curr_row',2) == 0 local line_file `"\quad `line_file'"'
+			}
+			
+			if strpos(`"`line_file'"', "\end{tabular}") {
+				if "`leebounds'" != "" file write myfile_r "multicolumn{`num_cols'}{l}{\footnotesize \cite{LeeDavidS2009Twas} bounds in brackets}\\" _n
+				file write myfile_r "\multicolumn{`num_cols'}{l}{\footnotesize \sym{*} \(p<0.1\), \sym{**} \(p<0.05\), \sym{***} \(p<0.01\)}\\" _n
+			}
+				
+			file write myfile_r `"`line_file'"' _n
+			file read myfile line_file
+			local curr_row = `curr_row' + 1
 		}
 		
-		forval i = 1/`nvars' {
-			local var : word `i' of `varlist'
-			tempvar to_be_cleaned
-			gen `to_be_cleaned' = `var'
-			count if !mi(`to_be_cleaned')
-			if "`ascii'" != "" replace `to_be_cleaned' = ustrto(ustrnormalize(`to_be_cleaned', "nfd"), "ascii", 2)
-			local hastrim 0
-			if "`notrim'" != "" local hastrim 1
-			if `hastrim' == 1 replace `to_be_cleaned' = stritrim(`to_be_cleaned')
-			if `hastrim' == 1 replace `to_be_cleaned' = ustrtrim(`to_be_cleaned')
-			count if !mi(`to_be_cleaned')
-			if "`proper'" != "" {
-				replace `to_be_cleaned' = strproper(`to_be_cleaned')
-			}
-			if "`upper'" != "" {
-				replace `to_be_cleaned' = ustrupper(`to_be_cleaned')
-			}
-			if "`lower'" != "" {
-				replace `to_be_cleaned' = ustrlower(`to_be_cleaned')
-			}
-			
-			if `"`keepchar'"' != "" {
-				replace `to_be_cleaned' = ustrregexra(`to_be_cleaned', `"[^`keepchar']"', "")
-			}
-			
-			if `"`keeppattern'"' != "" {
-				gen `to_be_cleaned'p = regexs(1) if regexm(`to_be_cleaned', `"`keeppattern'"')
-				replace `to_be_cleaned' = `to_be_cleaned'p
-				drop `to_be_cleaned'p
-			}
-			
-			if "`has_suffix'" != "" {
-				gen `var'`suffix' = `to_be_cleaned'
-				order `var'`suffix' , after(`var')
-			}
-			
-			if "`generate'" != "" 	{
-				local genvarname `: word `i' of `generate''
-				gen `genvarname' = `to_be_cleaned'
-				order `genvarname' , after(`var')
-			}
-			if "`replace'" != "" replace `var' = `to_be_cleaned'
-		}
+		file close myfile
+		file close myfile_r
 		
+		erase `"`using'"'
+		copy "tempbaltab.tex" `"`using'"' , replace
+		erase "tempbaltab.tex"
+	
 	end
