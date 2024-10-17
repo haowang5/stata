@@ -67,11 +67,8 @@
 				if strpos(`"`line_file'"', "\\[-1.8ex]\hline \hline \\[-1.8ex]") {
 					local line_file = "\\[-1.8ex]\toprule \\[-1.8ex]"
 				}
-				if strpos(`"`line_file'"', "\\ \hline \\[-1.8ex]") & strpos(`"`ieoptions'"', " total") {
-					local line_file = "Variable & N & Mean/(SE) & N & Mean/(SE) & N & Mean/(SE) & N & Mean difference \\ \midrule \\[-1.8ex]"
-				}
-				if strpos(`"`line_file'"', "\\ \hline \\[-1.8ex]") {
-					local line_file = "Variable & N & Mean/(SE) & N & Mean/(SE) & N & Mean difference \\ \midrule \\[-1.8ex]"
+				if strpos(`"`line_file'"', "\\ \hline \\[-1.8ex]"){
+					local line_file : subinstr local line_file "\hline" "\midrule", all
 				}
 				if strpos(`"`line_file'"',"\hline \hline \\[-1.8ex]") {
 					local line_file = "\bottomrule \\[-1.8ex]"
