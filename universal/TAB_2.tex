@@ -1,0 +1,26 @@
+%%% Table created in Stata by command iebaltab
+%%% (https://github.com/worldbank/ietoolkit)
+%%% (https://dimewiki.worldbank.org/iebaltab)
+%%% The command was specified exactly like this: 
+%%% iebaltab price mpg weight length displacement gear_ratio , grpvar(foreign) total nonote rowvarlabel texcolwidth(200 pt) savetex("TAB_2.tex") replace
+
+\begin{tabular}{@{\extracolsep{5pt}}p{200 pt}cccccccc}
+\\[-1.8ex]\hline \hline \\[-1.8ex]
+ & \multicolumn{2}{c}{(1)}  & \multicolumn{2}{c}{(2)}  & \multicolumn{2}{c}{(3)}  & \multicolumn{2}{c}{(2)-(3)} \\
+ & \multicolumn{2}{c}{Total}  & \multicolumn{2}{c}{Domestic}  & \multicolumn{2}{c}{Foreign}  & \multicolumn{2}{c}{Pairwise t-test}  \\
+Variable & N & Mean/(SE) & N & Mean/(SE) & N & Mean/(SE) & N & Mean difference \\ \hline \\[-1.8ex] 
+Price   & 74    & 6165.257    & 52    & 6072.423    & 22    & 6384.682    & 74    & -312.259   \\
+ &   & (342.872)  &   & (429.491)  &   & (558.994)  &   &  \\ [1ex]
+Mileage (mpg)   & 74    & 21.297    & 52    & 19.827    & 22    & 24.773    & 74    & -4.946***   \\
+ &   & (0.673)  &   & (0.658)  &   & (1.410)  &   &  \\ [1ex]
+Weight (lbs.)   & 74    & 3019.459    & 52    & 3317.115    & 22    & 2315.909    & 74    & 1001.206***   \\
+ &   & (90.347)  &   & (96.430)  &   & (92.317)  &   &  \\ [1ex]
+Length (in.)   & 74    & 187.932    & 52    & 196.135    & 22    & 168.545    & 74    & 27.589***   \\
+ &   & (2.588)  &   & (2.780)  &   & (2.917)  &   &  \\ [1ex]
+Displacement (cu. in.)   & 74    & 197.297    & 52    & 233.712    & 22    & 111.227    & 74    & 122.484***   \\
+ &   & (10.676)  &   & (11.824)  &   & (5.305)  &   &  \\ [1ex]
+Gear ratio   & 74    & 3.015    & 52    & 2.807    & 22    & 3.507    & 74    & -0.701***   \\
+ &   & (0.053)  &   & (0.047)  &   & (0.063)  &   &  \\ [1ex]
+\hline \hline \\[-1.8ex]
+
+\end{tabular}

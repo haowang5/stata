@@ -20,13 +20,13 @@
 		
 		
 		local replace_text "replace"
-		if strpos("`options", " replace ") local replace_text ""
+		if strpos(`"`options'"', "replace") local replace_text ""
 		
 		local nonote_text "nonote"
-		if strpos("`options", " nonote ") local nonote_text ""
+		if strpos(`"`options'"', "nonote") local nonote_text ""
 		
 		local starlevels_text "starlevels(0.1 0.05 0.01)"
-		if strpos("`options", " starlevels(") local starlevels_text ""
+		if strpos(`"`options'"', "starlevels") local starlevels_text ""
 		
 		
 		local ieoptions `"`varlist' `if' , `options' savetex(`"`using'"') `replace_text' `nonote_text' `starlevels_text' "'
