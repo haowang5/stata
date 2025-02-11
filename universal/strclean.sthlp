@@ -30,7 +30,7 @@
 {synopt:{opt ascii}}convert characters to ASCII, skip characters that cannot be converted{p_end}
 {synopt:{opt notrim}}the program by default removes leading and trailing spaces, and removes duplicated internal blanks. If notrim is specified it will not do anything to the spaces{p_end}
 {synopt:{opt keepc:har(string)}}keep only characters that match the use specified Regex experssion{p_end}
-{synopt:{opt keepp:pattern(string)}}keep only the first pattern that matches the use specified Regex experssion{p_end}
+{synopt:{opt keepp:attern(string)}}keep only the first pattern that matches the use specified Regex experssion{p_end}
 {synoptline}
 {p2colreset}{...}
 {pstd}

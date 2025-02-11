@@ -1,7 +1,7 @@
-v 1.04
+v 1.1
 d 'STRCLEAN': module that cleans string variables
 d Hao Wang (wanghap@berkeley.edu)
-d Distribution-Date: 4sep2024
+d Distribution-Date: 11feb2025
 f universal/strclean.ado
 f universal/strclean.sthlp
 e

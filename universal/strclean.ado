@@ -30,7 +30,7 @@
 			exit 198
 		}	
 		
-		if "`keepchar'" != "" & "keeppattern" != "" {
+		if "`keepchar'" != "" & "`keeppattern'" != "" {
 			di as err "{p}options keepchar and keeppattern mutually exclusive{p_end}"
 			exit 198
 		} 
