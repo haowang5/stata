@@ -56,7 +56,7 @@
 			local hastrim 0
 			if "`notrim'" != "" local hastrim 1
 			if `hastrim' == 1 replace `to_be_cleaned' = stritrim(`to_be_cleaned')
-			if `hastrim' == 1 replace `to_be_cleaned' = ustrtrim(`to_be_cleaned')
+			if `hastrim' == 1 replace `to_be_cleaned' = strtrim(`to_be_cleaned')
 			count if !mi(`to_be_cleaned')
 			if "`proper'" != "" {
 				replace `to_be_cleaned' = strproper(`to_be_cleaned')
