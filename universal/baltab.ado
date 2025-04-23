@@ -2657,9 +2657,9 @@ end
 		
 		
 		local andsigns "& & & & & &"
-		if strpos(`"`ieoptions'"', " total") local andsigns "& & & & & & & &"
+		if strpos(`"`ieoptions'"', " total ") local andsigns "& & & & & & & &"
 		local num_cols = 6
-		if strpos(`"`ieoptions'"', " total") local num_cols = 8
+		if strpos(`"`ieoptions'"', " total ") local num_cols = 8
 		
 		local hasrefcat = 0
 		local n_vars : word count `varlist'
