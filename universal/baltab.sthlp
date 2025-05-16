@@ -1,5 +1,5 @@
 {smcl}
-{* *! version 2.0.0  20mar2024}{...}
+{* *! version 2.1.0  16may2025}{...}
 
 {marker title}{...}
 {title:Title}
@@ -33,14 +33,10 @@
 {title:Acknowledgement}
 This program is a fork of iebaltab (version 7.3 20240404), developed by DIME{break}
 
-{marker License}{...}
-{title:License}
-MIT{break}
-
 
 {marker author}{...}
 {title:Author}
 Hao Wang wanghao@berkeley.edu
 {break}
-version 2.0.0  20mar2024
+version 2.1.0  16may2025
 

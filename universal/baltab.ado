@@ -2627,13 +2627,13 @@ end
 		* refcat: Inspired by esttab's refcat, include extra rows in the table containing subtitles or other information such as panel names
 		* Other options are identical to iebaltab's, with the exception that savetex() is disabled. Please use `" using "$path/..../file.tex" "' to specify export file
 	* Author: Hao Wang
-	* Last Edited: SEP 3 2024
+	* Last Edited: May 16 2025
 	capture program drop   baltab
 	program define baltab
 		
-		version 14
+		version 16
 		
-		syntax varlist using/ [if] [, refcat(string asis)] [booktabs] [*]
+		syntax varlist using/ [if] [, refcat(string asis)] [aw(string) fw(string) pw(string) iw(string)] [*]
 		
 		assert strpos("`options", "savetex") == 0
 		assert strpos("`options'", " if ") == 0
@@ -2651,8 +2651,13 @@ end
 		local starlevels_text "starlevels(0.1 0.05 0.01)"
 		if strpos(`"`options'"', "starlevels") local starlevels_text ""
 		
+		if "`aw'" != "" local pweight_script "[aw = `aw']"
+		if "`fw'" != "" local pweight_script "[fw = `fw']"
+		if "`pw'" != "" local pweight_script "[pw = `pw']"
+		if "`iw'" != "" local pweight_script "[iw = `iw']"
+
 		
-		local ieoptions `"`varlist' `if' , `options' savetex(`"`using'"') `replace_text' `nonote_text' `starlevels_text' "'
+		local ieoptions `"`varlist' `if' `pweight_script' , `options' savetex(`"`using'"') `replace_text' `nonote_text' `starlevels_text' "'
 		iebaltab_7_3_mod `ieoptions'
 		
 		
@@ -2696,18 +2701,17 @@ end
 		
 		file read myfile line_file
 		local curr_row = 1
+		local andsigns "" 
 		while r(eof)==0 {
-			if "`booktabs'" != "" {
-				if strpos(`"`line_file'"', "\\[-1.8ex]\hline \hline \\[-1.8ex]") {
-					local line_file = "\\[-1.8ex]\toprule \\[-1.8ex]"
-				}
-				if strpos(`"`line_file'"', "\\ \hline \\[-1.8ex]"){
-					local line_file : subinstr local line_file "\hline" "\midrule", all
-				}
-				if strpos(`"`line_file'"',"\hline \hline \\[-1.8ex]") {
-					local line_file = "\bottomrule \\[-1.8ex]"
+
+			if `curr_row' == 7 {
+				local nandsigns = length(`"`line_file'"') - length(subinstr(`"`line_file'"', "c", "", .))
+				local nandsigns = `nandsigns' - 1
+				forval a = 1/`nandsigns' {
+					local andsigns "`andsigns' &"
 				}
 			}
+			
 			
 			if `hasrefcat' == 1 {
 				forval j = 1(2)`=`nref'-1' {
