@@ -1632,7 +1632,7 @@ qui {
 	file open  `texhandle' using "`textmpfile'", text write append
 	file write `texhandle' ///
 		"\begin{tabular}{@{\extracolsep{5pt}}`colstring'}" _n ///
-		"\\[-1.8ex]\hline \hline \\[-1.8ex]" _n
+		"\\[-1.8ex]\toprule \\[-1.8ex]" _n
 	file close `texhandle'
 
 	******************************************************************************
@@ -1709,7 +1709,7 @@ qui {
 	*Write the title rows defined above
 	file open  `texhandle' using "`textmpfile'", text write append
 	file write `texhandle' `"`texrow1' \\"' _n `"`texrow2' \\"' _n ///
-	                     `"`texrow3' \\ \hline \\[-1.8ex] "' _n
+	                     `"`texrow3' \\ \midrule \\[-1.8ex] "' _n
 	file close `texhandle'
 
 	******************************************************************************
@@ -1829,7 +1829,7 @@ qui {
 
 		*Write a line before ftest
 		file open  `texhandle' using "`textmpfile'", text write append
-		file write `texhandle' "\hline \\[-1.8ex]" _n
+		file write `texhandle' "\midrule \\[-1.8ex]" _n
 		file close `texhandle'
 
 		* First column with row labels
@@ -1879,7 +1879,7 @@ qui {
 
     *Write a line before onerow observations
 		file open  `texhandle' using "`textmpfile'", text write append
-		file write `texhandle' "\hline \\[-1.8ex]" _n
+		file write `texhandle' "\midrule \\[-1.8ex]" _n
 		file close `texhandle'
 
 		*Initiate the row local for the N row if onerow is not missing
@@ -1926,7 +1926,7 @@ qui {
 	*Write the table note if one is defined
 	cap file close 	`texhandle'
 	file open  		`texhandle' using "`textmpfile'", text write append
-	file write `texhandle' "\hline \hline \\[-1.8ex]" _n
+	file write `texhandle' "\bottomrule \\[-1.8ex]" _n
 	file close 		`texhandle'
 
 	******************************************************************************
@@ -2623,7 +2623,6 @@ end
 
 	* Purpose: Add booktabs and optional extra rows (often as panel names) to tables created by iebaltab
 	* options:
-		* booktabs: use boooktabs instead of \hline for aesthetic
 		* refcat: Inspired by esttab's refcat, include extra rows in the table containing subtitles or other information such as panel names
 		* Other options are identical to iebaltab's, with the exception that savetex() is disabled. Please use `" using "$path/..../file.tex" "' to specify export file
 	* Author: Hao Wang
@@ -2633,7 +2632,7 @@ end
 		
 		version 16
 		
-		syntax varlist using/ [if] [, refcat(string asis)] [aw(string) fw(string) pw(string) iw(string)] [*]
+		syntax varlist using/ [if] [, refcat(string asis)] [aw(string) fw(string) pw(string) iw(string)] [booktabs] [*]
 		
 		assert strpos("`options", "savetex") == 0
 		assert strpos("`options'", " if ") == 0
