@@ -39,7 +39,8 @@
 		}
 		
 		
-		* Repalce New Var with Values (by Bin if Specified)
+		* Replace New Var with Values (by Bin if Specified)
+		local missing_bin_values ""
 		if "`bin'" != "" {
 			egen more_or_less_group = group(`bin')
 			qui levelsof more_or_less_group
@@ -49,6 +50,15 @@
 				if `r(N)' != 0 {
 					replace `newvar' = 0 if float(`varname') <= float(`r(p50)') 	& !mi(`varname') & more_or_less_group == `i'
 					replace `newvar' = 1 if float(`varname') > float(`r(p50)')		& !mi(`varname') & more_or_less_group == `i'
+				}
+				else {
+					* Check if this bin has observations but all are missing
+					qui count if more_or_less_group == `i'
+					if `r(N)' > 0 {
+						* Get the actual bin variable values for this group
+						qui levelsof `bin' if more_or_less_group == `i', local(bin_vals) clean
+						local missing_bin_values "`missing_bin_values' (`bin_vals')"
+					}
 				}
 			}
 			drop more_or_less_group
@@ -69,5 +79,17 @@
 			
 		}
 		
+		* Print formatted warning for bins with all missing data
+		if "`missing_bin_values'" != "" {
+			di as txt ""
+			di as txt "{hline 60}"
+			di as txt "WARNING: Bins with all missing values detected"
+			di as txt "{hline 60}"
+			di as txt "Variable: {bf:`varname'}"
+			di as txt "Bin variable(s): {bf:`bin'}"
+			di as txt "Bins with all missing values: {bf:`missing_bin_values'}"
+			di as txt "{hline 60}"
+			di as txt ""
+		}
 
 	end

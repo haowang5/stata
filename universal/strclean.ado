@@ -73,7 +73,7 @@
 			}
 			
 			if `"`keeppattern'"' != "" {
-				gen `to_be_cleaned'p = regexs(1) if regexm(`to_be_cleaned', `"`keeppattern'"')
+				gen `to_be_cleaned'p = regexs(0) if regexm(`to_be_cleaned', `"`keeppattern'"')
 				replace `to_be_cleaned' = `to_be_cleaned'p
 				drop `to_be_cleaned'p
 			}
