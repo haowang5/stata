@@ -1332,8 +1332,8 @@ qui {
 			* Mean and variance for this group - get value from mat and apply format
 			local mean_value = el(`rmat',`row_num',colnumb(`rmat',"mean_`grp_code'"))
 			local var_value = el(`rmat',`row_num',colnumb(`rmat',"`dout_val'_`grp_code'"))
-			local mean_value = trim("`: display `diformat' `mean_value''")
-			local var_value  = trim("`: display `diformat' `var_value''")
+			local mean_value = trim(regexr(string(`mean_value', "`diformat'"), "^( *)0\.", "."))
+			local var_value  = trim(regexr(string(`var_value', "`diformat'"), "^( *)0\.", "."))
 			local row_up   `"`row_up'   _tab "`mean_value'" "'
 			local row_down `"`row_down' _tab "(`var_value')" "'
 		}
@@ -1358,8 +1358,8 @@ qui {
 			local p_value = el(`rmat',`row_num',colnumb(`rmat',"feqp"))
 
 			count_stars, p(`p_value') starlevels(`starlevels')
-			local f_value = trim("`: display `diformat' `f_value''")
-			local p_value = trim("`: display `diformat' `p_value''")
+			local f_value = trim(regexr(string(`f_value', "`diformat'"), "^( *)0\.", "."))
+			local p_value = trim(regexr(string(`p_value', "`diformat'"), "^( *)0\.", "."))
 			local row_up   `"`row_up'   _tab "`f_value'`r(stars)'" "'
 			local row_down `"`row_down' _tab "`p_value'" "'
 		}
@@ -1382,7 +1382,7 @@ qui {
 
 			* Pairwise test statistics for this pair - get value from mat and apply format
 			local test_value = el(`rmat',`row_num',colnumb(`rmat',"`pout_val'_`pair'"))
-			local test_value = trim("`: display `diformat' `test_value''")
+			local test_value = trim(regexr(string(`test_value', "`diformat'"), "^( *)0\.", "."))
 
 			local p_value = el(`rmat',`row_num',colnumb(`rmat',"p_`pair'"))
 			count_stars, p(`p_value') starlevels(`starlevels')
@@ -1426,7 +1426,7 @@ qui {
 		foreach pair of local pairs {
 			* Pairwise test statistics for this pair - get value from mat and apply format
 			local ftest_value = el(`fmat',1,colnumb(`fmat',"f`fout_val'_`pair'"))
-			local ftest_value = trim("`: display `diformat' `ftest_value''")
+			local ftest_value = trim(regexr(string(`ftest_value', "`diformat'"), "^( *)0\.", "."))
 			local ftest_n     = el(`fmat',1,colnumb(`fmat',"fn_`pair'"))
 			local ftest_cl    = el(`fmat',1,colnumb(`fmat',"fcl_`pair'"))
 
@@ -1751,8 +1751,8 @@ qui {
 			* Mean and variance for this group - get value from mat and apply format
 			local mean_value = el(`rmat',`row_num',colnumb(`rmat',"mean_`grp_code'"))
 			local var_value = el(`rmat',`row_num',colnumb(`rmat',"`dout_val'_`grp_code'"))
-			local mean_value = trim("`: display `diformat' `mean_value''")
-			local var_value  = trim("`: display `diformat' `var_value''")
+			local mean_value = trim(regexr(string(`mean_value', "`diformat'"), "^( *)0\.", "."))
+			local var_value  = trim(regexr(string(`var_value', "`diformat'"), "^( *)0\.", "."))
 			local row_up   `"`row_up'   & `mean_value' "'
 			local row_down `"`row_down' & (`var_value') "'
 		}
@@ -1776,8 +1776,8 @@ qui {
 			local p_value = el(`rmat',`row_num',colnumb(`rmat',"feqp"))
 
 			count_stars, p(`p_value') starlevels(`starlevels')
-			local f_value = trim("`: display `diformat' `f_value''")
-			local p_value = trim("`: display `diformat' `p_value''")
+			local f_value = trim(regexr(string(`f_value', "`diformat'"), "^( *)0\.", "."))
+			local p_value = trim(regexr(string(`p_value', "`diformat'"), "^( *)0\.", "."))
 			local row_up   `"`row_up'   & `f_value'`r(stars)' "'
 			local row_down `"`row_down' & `p_value' "'
 		}
@@ -1800,7 +1800,7 @@ qui {
 
 			* Pairwise test statistics for this pair - get value from mat and apply format
 			local test_value = el(`rmat',`row_num',colnumb(`rmat',"`pout_val'_`pair'"))
-			local test_value 	= trim("`: display `diformat' `test_value''")
+			local test_value 	= trim(regexr(string(`test_value', "`diformat'"), "^( *)0\.", "."))
 
 			local p_value = el(`rmat',`row_num',colnumb(`rmat',"p_`pair'"))
 			count_stars, p(`p_value') starlevels(`starlevels')
@@ -1850,7 +1850,7 @@ qui {
 		foreach pair of local pairs {
 			* Pairwise test statistics for this pair - get value from mat and apply format
 			local ftest_value = el(`fmat',1,colnumb(`fmat',"f`fout_val'_`pair'"))
-			local ftest_value = trim("`: display `diformat' `ftest_value''")
+			local ftest_value = trim(regexr(string(`ftest_value', "`diformat'"), "^( *)0\.", "."))
 			local ftest_n     = el(`fmat',1,colnumb(`fmat',"fn_`pair'"))
 			local ftest_cl    = el(`fmat',1,colnumb(`fmat',"fcl_`pair'"))
 
