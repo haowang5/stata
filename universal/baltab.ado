@@ -1569,7 +1569,7 @@ qui {
 		"%%% (https://github.com/worldbank/ietoolkit)" _n ///
 		"%%% (https://dimewiki.worldbank.org/iebaltab)" _n ///
 		"%%% The command was specified exactly like this: " _n ///
-		`"%%% `userinput'"'_n _n
+		`"%%% xxx"'_n _n
 	file close `texhandle'
 
 	* If tex doc is used, prepare header so that the tex file can be compiled on
