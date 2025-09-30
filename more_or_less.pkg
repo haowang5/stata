@@ -1,7 +1,7 @@
-v 1.00
+v 1.01
 d 'MORE_OR_LESS': Module that creates indicator for higher/lower than median
 d Hao Wang (wanghap@berkeley.edu)
-d Distribution-Date: 21may2025
+d Distribution-Date: 30sep2025
 f universal/more_or_less.ado
 f universal/more_or_less.sthlp
 e

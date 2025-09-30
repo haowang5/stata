@@ -3,7 +3,7 @@
 	* Purpose: Gnerate an indicator for whether variable of interest is higher or lower than median.
 	program define 		more_or_less
 	
-		syntax varlist(max=1) , [GENerate(name)] [prefix(string)] [bin(varlist)] [VARLABel(string asis)] [VALLABel(string asis)]
+		syntax varlist(max=1) , [GENerate(name)] [prefix(string)] [bin(varlist)] [includemedian] [VARLABel(string asis)] [VALLABel(string asis)]
 		
 		local varname : word 1 of `varlist'
 		
@@ -50,6 +50,7 @@
 				if `r(N)' != 0 {
 					replace `newvar' = 0 if float(`varname') <= float(`r(p50)') 	& !mi(`varname') & more_or_less_group == `i'
 					replace `newvar' = 1 if float(`varname') > float(`r(p50)')		& !mi(`varname') & more_or_less_group == `i'
+					if "`includemedian'" != "" replace `newvar' = 1 if float(`varname') == float(`r(p50)') 	& !mi(`varname') & more_or_less_group == `i'
 				}
 				else {
 					* Check if this bin has observations but all are missing
@@ -67,6 +68,7 @@
 			qui sum `varname' , d
 			replace `newvar' = 0 if float(`varname') <= float(`r(p50)') 	& !mi(`varname')
 			replace `newvar' = 1 if float(`varname') > float(`r(p50)')		& !mi(`varname')
+			if "`includemedian'" != "" replace `newvar' = 1 if float(`varname') == float(`r(p50)') 	& !mi(`varname')
 		}
 		
 		
