@@ -1,4 +1,4 @@
-v 0
+v 0.1
 d HW's Stata Repo
 p strclean
 p baltab
@@ -7,3 +7,4 @@ p wrap_varlab
 p het_table
 p simpleindex
 p maindex
+e
