@@ -3,3 +3,4 @@ d HW's Stata Repo
 p strclean
 p baltab
 p more_or_less
+p wrap_varlab

@@ -2,6 +2,6 @@ v 2.5
 d 'BLATAB': module that creates balance tables using iebaltab
 d Hao Wang (wanghap@berkeley.edu)
 d Distribution-Date: 7june2025
-f universal/baltab.ado
-f universal/baltab.sthlp
+f baltab.ado
+f baltab.sthlp
 e

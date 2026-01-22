@@ -1,0 +1,7 @@
+v 1.0
+d 'WRAP_VARLAB': module that breaks variable labels into multiple lines
+d Hao Wang (wanghap@berkeley.edu)
+d Distribution-Date: 22jan2026
+f wrap_varlab.ado
+f wrap_varlab.sthlp
+e
