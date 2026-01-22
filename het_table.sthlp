@@ -1,5 +1,5 @@
 {smcl}
-{* *! version 1.00  22jan2026}{...}
+{* *! version 1.1  22jan2026}{...}
 
 {marker title}{...}
 {title:Title}
@@ -20,6 +20,7 @@
 {opt regcmd(string)}
 {opt hetvar(varname)}
 [{opt breakline(#)}]
+[{opt treat_only}]
 
 
 {marker options}{...}
@@ -44,6 +45,11 @@ This variable must have exactly 2 distinct values.
 {phang}
 {opt breakline(#)} specifies the maximum number of characters per line in column headers before wrapping.
 The default is 12 characters.
+
+{phang}
+{opt treat_only} specifies that the heterogeneity variable is observed only for the treatment group. 
+When this option is specified, the command compares each subgroup of the treatment group (treated units with specific {opt hetvar} value) to the entire control group. 
+This is useful when the heterogeneity dimension is only relevant or measured for treated units.
 
 
 {marker description}{...}

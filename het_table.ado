@@ -1,6 +1,17 @@
 program define het_table
 
-		syntax varlist using/, treat(varname) regcmd(string) hetvar(varname) [breakline(integer 12)]
+		// treat_only: when the het variale is available for treatment group only. In this case we compare sub-samples of treatment group with the entire control group
+		syntax varlist using/, treat(varname) regcmd(string) hetvar(varname) [breakline(integer 12)] [treat_only]
+
+		* Process using
+		* if `using' contains .tex extention, then okay. If not, add .tex to the end. If it has an entention that is not .tex, raise error
+		if strpos(`"`using'"', ".tex") == 0 {
+			if strpos(`"`using'"', ".") > 0 {
+				di as err `"{p}the using file must have .tex extension{p_end}"'
+				exit 9
+			}
+			local using `"`using'.tex"'
+		}
 		
 		* Save temp dataset and restore after running
 		tempfile het_table_tempsave
@@ -131,7 +142,12 @@ program define het_table
 			eststo clear
 			
 			foreach var of varlist `varlist' {
-				qui eststo: reg `var' `treat' `controls' if `hetvar' == `hetval' `regopts'
+				if "`treat_only'" == "" {
+					qui eststo: reg `var' `treat' `controls' if `hetvar' == `hetval' `regopts'
+				}
+				else {
+					qui eststo: reg `var' `treat' `controls' if `hetvar' == `hetval' | `treat' == 0 `regopts'
+				}
 				
 				* Add statistics
 				qui sum `var' if `treat' == 0 & e(sample)
@@ -181,7 +197,13 @@ program define het_table
 			local testindex = 1
 			
 			foreach hetval in `hetlevels' {
-				qui eststo: reg `var' `treat' `controls' if `hetvar' == `hetval'
+				if "`treat_only'" == "" {
+					qui eststo: reg `var' `treat' `controls' if `hetvar' == `hetval'
+				}
+				else {
+					qui eststo: reg `var' `treat' `controls' if `hetvar' == `hetval' | `treat' == 0
+				}
+
 				local coeff`testindex' = e(b)[1, 1]
 				local testindex = `testindex' + 1
 			}
