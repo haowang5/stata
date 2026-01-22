@@ -4,3 +4,6 @@ p strclean
 p baltab
 p more_or_less
 p wrap_varlab
+p het_table
+p simpleindex
+p maindex

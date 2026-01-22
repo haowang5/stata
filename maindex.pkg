@@ -1,0 +1,7 @@
+v 1.0
+d 'MAINDEX': module to create a Michael Anderson (2008) index using inverse covariance weighting
+d Hao Wang (wanghao@berkeley.edu)
+d Distribution-Date: 22jan2026
+f maindex.ado
+f maindex.sthlp
+e

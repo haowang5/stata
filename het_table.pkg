@@ -1,0 +1,7 @@
+v 1.0
+d 'HET_TABLE': module that runs regressions by a HET variable
+d Hao Wang (wanghap@berkeley.edu)
+d Distribution-Date: 22jan2026
+f het_table.ado
+f het_table.sthlp
+e

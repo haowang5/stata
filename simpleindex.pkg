@@ -1,0 +1,7 @@
+v 1.0
+d 'SIMPLEINDEX': module to create a standardized index from multiple variables
+d Hao Wang (wanghao@berkeley.edu)
+d Distribution-Date: 22jan2026
+f simpleindex.ado
+f simpleindex.sthlp
+e
